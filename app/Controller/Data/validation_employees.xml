@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <archivo>
+        <columnas>
+            <columna posicion="1" tipo="ENTERO" obligatorio="S">Documento</columna>
+            <columna posicion="2" tipo="TEXTO" obligatorio="S">Nombre</columna>
+            <columna posicion="3" tipo="TEXTO" obligatorio="S">Actividad</columna>
+            <columna posicion="4" tipo="NUMERO" obligatorio="S">Aspiracion salarial</columna>
+        </columnas>
+    </archivo>
+    <validaciones cuenta="3">
+        <validacion id="1" mensaje="#1# ya existe: ?1?" esperado="0">
+      <![CDATA[
+        select count(9) as dato 
+          from employees
+          where document = %1%
+      ]]>
+        </validacion>
+        <validacion id="2" mensaje="#3# no existe: ?3?" esperado="1">
+      <![CDATA[
+        select count(9) as dato 
+          from activities
+          where upper(trim(name)) = upper(trim(%3%))
+      ]]>
+        </validacion>
+        <validacion id="3" mensaje="#4# sobrepasa el sueldo destinado para la actividad: ?4?" esperado="1">
+      <![CDATA[
+         select count(9) as dato 
+          from activities
+          where upper(trim(name)) = upper(trim(%3%)) and salary >= %4%
+      ]]>
+        </validacion>
+    
+    </validaciones>
+</root>
+
